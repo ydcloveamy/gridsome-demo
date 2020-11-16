@@ -1,100 +1,63 @@
 <template>
-    <Layout>
-
-        <!-- Page Header -->
-        <header class="masthead"
-                :style="{
-                    backgroundImage: `url(${ GRIDSOME_API_URL + $page.general.edges[0].node.cover.url})`
-                }">
-            <div class="overlay"></div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 col-md-10 mx-auto">
-                        <div class="site-heading">
-                            <h1>{{ $page.general.edges[0].node.title }}</h1>
-                            <span class="subheading">{{ $page.general.edges[0].node.subtitle }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <!-- Main Content -->
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-md-10 mx-auto">
-                    <div
-                        v-for="edge in $page.posts.edges"
-                        :key="edge.node.id"
-                        class="post-preview">
-                        <g-link :to="'/post/' + edge.node.id">
-                            <h2 class="post-title">
-                                {{ edge.node.title }}
-                            </h2>
-                        </g-link>
-                        <p class="post-meta">on {{ edge.node.created_at }}</p>
-                        <p>
-                            <g-link
-                                v-for="(tag, index) in edge.node.tags"
-                                :key="index"
-                                :to="'/tag/' + tag.id">{{ tag.title }}  </g-link>
-                        </p>
-                        <hr>
-                    </div>
-
-                    <!-- Pager -->
-                    <Pager :info="$page.posts.pageInfo"/>
-                </div>
-            </div>
+  <Layout>
+    <!-- 最新动态 -->
+    <div>
+      <el-card shadow="never" style="min-height: 400px" 
+        v-if="$page.newlist.edges.length > 0"
+      >
+        <div slot="header">
+          <span>{{$page.newlist.edges[0].node.title}}</span>
         </div>
-
-
-    </Layout>
+        <div style="font-size: 0.9rem;line-height: 1.5;color: #606c71;">
+          发布 {{$page.newlist.edges[0].node.createTime}}
+          <br />
+          更新 {{$page.newlist.edges[0].node.updateTime}}
+        </div>
+        <div
+          style="font-size: 1.1rem;line-height: 1.5;color: #303133;border-bottom: 1px solid #E4E7ED;padding: 5px 0px 5px 0px"
+        >
+          <pre style="font-family: '微软雅黑'">{{$page.newlist.edges[0].node.description}}</pre>
+        </div>
+        <div v-html="mdToHtml($page.newlist.edges[0].node.content)" class="markdown-body" style="padding-top: 20px"></div>
+      </el-card>
+      <el-card
+        shadow="never"
+        style="margin-bottom: 20px;padding: 20px 0px 20px 0px;text-align: center"
+        v-else
+      >
+        <font style="font-size: 30px;color:#dddddd ">
+          <b>没有更新 ╮(๑•́ ₃•̀๑)╭</b>
+        </font>
+      </el-card>
+    </div>
+  </Layout>
 </template>
-
 <page-query>
-query ($page: Int) {
-    posts: allStrapiPost (perPage: 1, page: $page) @paginate {
-        pageInfo {
-            totalPages
-            currentPage
-        }
-        edges {
-            node {
-                id,
-                title,
-                created_at,
-                tags {
-                    id,
-                    title
-                }
-            }
-        }
+query {
+	newlist: allStrapiNewlists {
+    edges {
+			node {
+        description
+        id
+        content
+        createTime
+        updateTime
+        title
+      }
     }
-
-    general: allStrapiGeneral {
-        edges {
-            node {
-                id
-                title
-                subtitle
-                cover {
-                    url
-                }
-            }
-        }
-    }
+  }
 }
+
 </page-query>
-
-
 <script>
-    import { Pager } from 'gridsome'
-    export default {
-        name: 'HomePage',
-        components: {
-            Pager
-        }
+import MarkdownIt from 'markdown-it'
+const md = new MarkdownIt()
+export default {
+  name: 'newsList',
+  methods: {
+    mdToHtml(content) {
+      return md.render(content)
     }
+  }
+};
 </script>
-

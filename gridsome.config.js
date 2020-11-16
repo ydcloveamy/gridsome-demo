@@ -1,45 +1,48 @@
-// This is where project configuration and plugin options are located.
-// Learn more: https://gridsome.org/docs/config
-
-// Changes here require a server restart.
-// To restart press CTRL + C in terminal and run `gridsome develop`
-
 module.exports = {
   siteName: 'Gridsome',
-  port: 8081,
   plugins: [
     {
       use: '@gridsome/source-filesystem',
       options: {
-        typeName:'BlogPost',
-        path: './content/blog/**/*.md'
+        typeName: 'BlogPost', 
+        path: './content/blog/**/*.md',
       }
     },
     {
       use: '@gridsome/source-strapi',
       options: {
-        apiURL: 'http://121.196.190.140:1337',
-        queryLimit: 1000,
-        contentTypes: ['post', 'tag'],
-        singleTypes: ['general'],
+        apiURL: process.env.GRIDSOME_API_URL,
+        queryLimit: 1000, // Defaults to 100
+        contentTypes: ['newlists', 'followers', 'followings', 'projects', 'blogs'],
+        // singleTypes: ['general'],
         loginData: {
-          identifier: 'ydc',
-          password: '123456'
+          identifier: '',
+          password: ''
         }
       }
     }
   ],
+  transformers:{
+    remark: {
+    }
+  },
   templates: {
-    StrapiPost: [
+    StrapiFollowers: [ // 集合的名字，与上方plugin对应关系
       {
-        path: '/post/:id',
-        component: './src/templates/Post.vue'
+        path: '/social/follower/:id',
+        component: './src/templates/FollowerDetail.vue'
       }
     ],
-    StrapiTag: [
+    StrapiFollowings: [
       {
-        path: '/tag/:id',
-        component: './src/templates/Tag.vue'
+        path: '/social/following/:id',
+        component: './src/templates/FollowingDetail.vue'
+      }
+    ],
+    StrapiProjects: [
+      {
+        path: '/project/detail/:id',
+        component: './src/templates/ProjectDetail.vue'
       }
     ]
   }
