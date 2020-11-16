@@ -12,7 +12,7 @@ export default function (Vue, { router, head, isClient }) {
   Vue.mixin({
     data() {
       return {
-        GRIDSOME_API_URL: 'http://121.196.190.140:1337'
+        GRIDSOME_API_URL: 'http://122.196.190.140:1337'
       }
     }
   })
