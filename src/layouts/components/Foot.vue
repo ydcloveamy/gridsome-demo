@@ -4,8 +4,8 @@
 			<el-col :span="10">
 				<div>
 					© 2018 GitHub-Laziji&emsp;&emsp;
-					<a href="https://github.com/sylvanase" target="_blank">Profile</a>&emsp;&emsp;
-					<a href="https://github.com/sylvanase/vblog" target="_blank">VBlog</a>
+					<a href="https://github.com/ydcloveamy" target="_blank">Profile</a>&emsp;&emsp;
+					<a href="https://github.com/ydcloveamy/gridsome-demo" target="_blank">VBlog</a>
 				</div>
 			</el-col>
 			<el-col :span="4">

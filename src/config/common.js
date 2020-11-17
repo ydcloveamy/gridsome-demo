@@ -1,10 +1,10 @@
 export default {
   data() {
     return {
-      githubUsername: 'sylvanase',
-      blogTitle: 'sylvanase',
+      githubUsername: 'ydc',
+      blogTitle: 'ydc',
       blogDescribe: '使用gridsome的博客作业。',
-      htmlTitle: 'sylvanase的博客',
+      htmlTitle: 'ydc的博客',
       fontColor: '#ffffff',
       useBackgroundImage: false,
       backgroundColorLeft: '#2690F9',
